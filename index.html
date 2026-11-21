@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#242051">
+  <meta name="description" content="Aventura dos Sonhos: um jogo de fantasia para Ben e Liz, com dragão, unicórnio e cinco ondas até o Barão Algodão-Cetro.">
+  <title>Aventura dos Sonhos · Ben & Liz</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="shell">
+  <div class="topnote"><span class="note-star">✦</span> UMA AVENTURA FEITA COM AMOR <span class="note-star">✦</span></div>
+  <div class="fullscreen-surface" id="fullscreenSurface">
+  <div class="game-frame" id="gameFrame">
+    <canvas id="game" width="1280" height="720" aria-label="Área de jogo da Aventura dos Sonhos"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <div id="screen" class="overlay" role="region" aria-label="Menu do jogo">
+      <div class="menu-screen" id="menu">
+        <div class="pill-header">✦ UMA MISSÃO MÁGICA ✦</div>
+        <h1>AVENTURA <em>DOS</em> <span>SONHOS</span></h1>
+        <p class="tagline">Duas crianças. Um mundo encantado. Um sonho para salvar!</p>
+        <div class="menu-panels">
+          <section class="select-panel" aria-labelledby="chooseTitle">
+            <h2 id="chooseTitle">1 · ESCOLHA SEU HERÓI</h2>
+            <div class="character-grid">
+              <button class="character selected" data-hero="ben" aria-pressed="true">
+                <img src="assets/ben.png" alt="Ben montado em um dragão verde">
+                <span class="char-name">BEN <small>🐉</small></span>
+                <span class="char-desc">Dragão de fogo</span>
+                <span class="char-special">Especial: 3 meteoros 🔥</span>
+              </button>
+              <button class="character" data-hero="liz" aria-pressed="false">
+                <img src="assets/liz.png" alt="Liz montada em um unicórnio alado branco">
+                <span class="char-name">LIZ <small>🦄</small></span>
+                <span class="char-desc">Unicórnio arco-íris</span>
+                <span class="char-special">Especial: bomba de cores 🌈</span>
+              </button>
+            </div>
+          </section>
+          <section class="select-panel difficulties" aria-labelledby="diffTitle">
+            <h2 id="diffTitle">2 · ESCOLHA A AVENTURA</h2>
+            <div class="difficulty-options" role="group" aria-label="Dificuldade">
+              <button class="diff" data-diff="easy" aria-pressed="false"><span class="diff-icon">🌼</span><span><strong>FÁCIL</strong><small>Mais tranquilinho</small></span></button>
+              <button class="diff selected" data-diff="normal" aria-pressed="true"><span class="diff-icon">⭐</span><span><strong>NORMAL</strong><small>Equilibrado</small></span></button>
+              <button class="diff" data-diff="hard" aria-pressed="false"><span class="diff-icon">🚀</span><span><strong>DIFÍCIL</strong><small>Para corajosos!</small></span></button>
+            </div>
+            <div class="tip"><span>🎮</span><span><b>Como jogar</b><br>Setas / WASD para voar · Espaço para atirar · X para especial · P para pausar · F para tela cheia. No celular, arraste o personagem!</span></div>
+            <button id="start" class="play-button">COMEÇAR A AVENTURA <span>➜</span></button>
+            <div class="smallprint">1 jogador · 5 ondas + chefão · cerca de 3 minutos</div>
+          </section>
+        </div>
+      </div>
+      <div id="dialog" class="dialog hidden" aria-live="polite"></div>
+    </div>
+    <div class="hud hidden" id="hud" aria-hidden="true">
+      <div class="hud-top">
+        <div class="hero-panel">
+          <div class="hud-portrait" id="hudPortrait">🐉</div>
+          <div class="hero-info"><b id="heroName">BEN</b><div class="health-track"><div class="health-fill" id="healthFill"></div></div><small id="lives">♥ ♥ ♥</small></div>
+        </div>
+        <div class="wave-panel"><div class="wave-name" id="waveLabel">ONDA 1 DE 5</div><div class="wave-progress"><div id="waveFill"></div></div><span id="waveSubtitle">O céu está acordando!</span></div>
+        <div class="points-panel"><small>PONTUAÇÃO</small><strong id="points">000000</strong><div class="special-meter"><span id="specialText">ESPECIAL PRONTO!</span><div class="special-track"><div id="specialFill"></div></div></div></div>
+      </div>
+      <div class="boss-bar hidden" id="bossBar"><span>💜 BARÃO ALGODÃO-CETRO</span><div class="boss-track"><div id="bossHealth"></div></div><small id="bossPhase">FASE 1 · GUARDIÃO ADORMECIDO</small></div>
+      <button class="pause-button" id="pause" title="Pausar (P)" aria-label="Pausar jogo">Ⅱ</button>
+    </div>
+    <div class="toast hidden" id="toast" aria-live="polite"></div>
+    <div class="touch-controls hidden" id="touchControls">
+       <div class="touch-hint">ARRASTE PARA VOAR ✨</div>
+       <div class="touch-actions"><button id="touchFire" aria-label="Atirar">✦ <small>TIRO</small></button><button id="touchSpecial" aria-label="Ataque especial">★ <small>ESPECIAL</small></button></div>
+    </div>
+    <div id="orientationTip">↻ Vire o celular para jogar na horizontal</div>
+    <button class="fullscreen-toggle" id="fullscreenToggle" type="button" aria-pressed="false" aria-label="Entrar em tela cheia" title="Ativar tela cheia (F)"><span class="fullscreen-icon" aria-hidden="true">⛶</span><span>Tela cheia</span></button>
+  </div>
+  </div>
+  <div class="below"><span>✨ Um mundo de sonhos esperando por vocês</span><span><kbd>WASD</kbd> / <kbd>← ↑ → ↓</kbd> mover &nbsp; · &nbsp; <kbd>ESPAÇO</kbd> atirar &nbsp; · &nbsp; <kbd>X</kbd> especial &nbsp; · &nbsp; <kbd>P</kbd> pausa &nbsp; · &nbsp; <kbd>F</kbd> tela cheia</span><button id="mute" aria-label="Ativar ou desativar som">🔊 Som ligado</button></div>
+</main>
+<script src="game.js" defer></script>
+</body>
+</html>
